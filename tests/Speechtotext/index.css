@@ -1,0 +1,14 @@
+#containerWritingPage {
+  top: 100px;
+  text-align: center;
+  position: relative;
+  height: 500px;
+}
+
+#writtingPage {
+  height: 65vh;
+}
+
+.list-group-item.active {
+  background-color: darkgreen;
+}

@@ -1,0 +1,47 @@
+
+-----------------------------------------------------
+Projet Redigeur de cour
+-----------------------------------------------------
+
+
+Lien utiles:
+
+https://towardsdatascience.com/how-to-use-google-speech-to-text-api-to-transcribe-long-audio-files-1c886f4eb3e9
+https://cloud.google.com/speech-to-text/docs/?hl=fr
+https://cloud.google.com/speech-to-text/docs/streaming-recognize
+
+
+
+Cahier des charges:
+
+-Transformer un texte de façon très precise grâce a l'API Google
+
+
+
+
+
+Idée de developpement :
+
+
+
+
+
+
+
+
+Ce soir:
+
+Faire un rangement propre des fichiers audio
+Appeler facq
+tester continuité
+faire code de conversion des fichiers au fur et a mesure
+faire code de lecture par ordre 
+coder google api 
+
+
+
+
+Apres:
+Recoller les morceaux audio si sur la même ligne
+
+

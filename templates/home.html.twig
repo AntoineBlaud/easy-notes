@@ -1,0 +1,249 @@
+{% extends "base2.html.twig" %}
+{% block stylesheets %}{% endblock %}
+{% block body %}
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-6 editor">
+            <div id="main-editor"></div>
+        </div>
+        <div class="col-5">
+            <div class="btn-group" role="group" aria-label="Microphone" style="margin-top:1.5vh;">
+                <button type="button" id="record" onclick="startRecording()" class="btn btn-secondary">Record</button>
+                <button type="button" id="stop" onclick="stopRecording()" class="btn btn-secondary">Stop</button>
+                <button id="speech" class="btn" style="left:2vw;">
+                    <i class="fa fa-microphone" aria-hidden="true"></i>
+                    <div id="micAnimation" class="pulse-ring"></div>
+                </button>
+                <button class="btn" id="picture">
+                    <i class="fas fa-camera-retro"></i>
+                </button>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-6">
+            <div id="google-editor"></div>
+        </div>
+        <div class="col-5">
+            <div class="card text-black  bg-secondary  mb-3 " id="reference" style="max-width: 100%;">
+                <div class="card-header">Found References</div>
+                <div class="card-body">
+                    <h4 class="card-title"></h4>
+                    <p class="card-text"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <style>
+        .editor {
+            margin-top: 1.5vh;
+            width: 100%;
+        }
+        #main-editor {
+            height: 68vh;
+        }
+        #picture {
+            font-size: 2.5em;
+            padding: 0 7px;
+            background-color: #e6e6e6;
+            left: 4vw;
+        }
+        #reference {
+            top: -66vh;
+            width: 90%;
+        }
+        .btn {
+            font-size: 0.9em;
+        }
+
+
+        #speech.btn {
+            border: none;
+            padding: 0;
+            border-radius: 100%;
+            width: 40px;
+            height: 40px;
+            font-size: 1.5em;
+            color: #FFF;
+            margin: 0;
+            position: relative;
+            display: inline-block;
+            line-height: 50px;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            -ms-touch-action: manipulation;
+            touch-action: manipulation;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            background-image: none;
+            background-color: #FF3D7F;
+            top:4px;
+        }
+
+        .pulse-ring {
+            content: '';
+            width: 40px;
+            height: 40px;
+            border: 5px solid #FF3D7F;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            animation: pulsate infinite 2s;
+            animation-play-state: paused;
+        }
+
+        @-webkit-keyframes pulsate {
+            0% {
+                -webkit-transform: scale(1, 1);
+                opacity: 1;
+            }
+            100% {
+                -webkit-transform: scale(1.3, 1.3);
+                opacity: 0;
+            }
+        }
+    </style>
+
+{% endblock %}
+{% block javascripts %}
+    <script>
+        // <-- Initialize Quill editor -->
+        var quill = new Quill('#main-editor', {
+            modules: {
+                toolbar: [
+                    [
+                        'bold', 'italic', 'underline', 'strike'
+                    ], // toggled buttons
+                    [
+                        'blockquote', 'code-block', 'link', 'image'
+                    ],
+                    [
+                        {
+                            'color': []
+                        }, {
+                            'background': []
+                        }
+                    ], // dropdown with defaults from theme
+
+                    [
+                        {
+                            'list': 'ordered'
+                        }, {
+                            'list': 'bullet'
+                        }, {
+                            'align': []
+                        }
+                    ],
+                    [
+                        {
+                            'script': 'sub'
+                        }, {
+                            'script': 'super'
+                        }
+                    ], // superscript/subscript
+
+
+                    [
+                        {
+                            'size': ['small', false, 'large', 'huge']
+                        }
+                    ], // custom dropdown
+                    [
+                        {
+                            'header': [
+                                1,
+                                2,
+                                3,
+                                4,
+                                5,
+                                6,
+                                false
+                            ]
+                        }
+                    ],
+
+                    [
+                        {
+                            'font': []
+                        }
+                    ],
+                ]
+            },
+            placeholder: 'Compose an epic...',
+            theme: 'snow' // or 'bubble'
+        });
+        quill.on('text-change', function (delta, oldDelta, source) {
+            if (source == 'api') {
+                console.log("An API call triggered this change.");
+            } else if (source == 'user') {
+                console.log("A user action triggered this change.");
+            }
+        });
+
+        var quill2 = new Quill('#google-editor', {
+            modules: {
+                toolbar: false,
+                syntax: true
+            },
+            placeholder: 'waiting google response...',
+            theme: 'snow'
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/interact.js/1.2.6/interact.min.js"></script>
+    <script>
+        interact('.resizable').draggable({onmove: window.dragMoveListener}).resizable({
+            preserveAspectRatio: true,
+            edges: {
+                left: true,
+                right: true,
+                bottom: true,
+                top: true
+            }
+        }).on('resizemove', function (event) {
+            var target = event.target,
+                x = (parseFloat(target.getAttribute('data-x')) || 0),
+                y = (parseFloat(target.getAttribute('data-y')) || 0);
+
+            // update the element's style
+            target.style.width = event.rect.width + 'px';
+            target.style.height = event.rect.height + 'px';
+
+            // translate when resizing from top or left edges
+            x += event.deltaRect.left;
+            // y += event.deltaRect.top;
+
+            target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+
+            target.setAttribute('data-x', x);
+            target.setAttribute('data-y', y);
+            target.textContent = event.rect.width + '×' + event.rect.height;
+        });
+
+        function dragMoveListener(event) {
+            var target = event.target,
+                // keep the dragged position in the data-x/data-y attributes
+                x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+                y = (parseFloat(target.getAttribute('data-y')) || 0)
+            // + event.dy;
+
+            // translate the element
+            target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+
+            // update the posiion attributes
+            target.setAttribute('data-x', x);
+            target.setAttribute('data-y', y);
+        }
+    </script>
+
+
+    <script src="{{ asset('/scripts/record.js') }}"></script>
+{% endblock %}

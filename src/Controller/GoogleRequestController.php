@@ -47,10 +47,12 @@ class GoogleRequestController extends AbstractController{
         $alternatives = $result->getAlternatives();
         $mostLikely = $alternatives[0];
         $transcript = $mostLikely->getTranscript();
+        file_put_contents("test.txt",$transcript. PHP_EOL,FILE_APPEND);
         printf('Transcript: %s' . PHP_EOL, $transcript);
     }
 
     $client->close();
+    return new Response(("OK"));
        
 }
 }

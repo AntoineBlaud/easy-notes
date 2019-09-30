@@ -52,9 +52,7 @@ class SecurityController extends AbstractController{
              $this->em->flush();
              return $this->render("security/login.html.twig");
 
-
         }
-
         return $this->render("security/signup.html.twig",[
         'property' =>$user,
         'form' => $form->createView()

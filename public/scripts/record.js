@@ -26,7 +26,7 @@ function activeRecording () {
         } else {
           stream.getAudioTracks()[0].stop()
         }
-      }, 7000)
+      }, 13500)
       // start recording with 1 second time between receiving 'ondataavailable' events
       recorder.start(1)
     })

@@ -26,7 +26,7 @@ class UserRepository extends ServiceEntityRepository
     public function findByExampleField($value)
     {
         return null;
-        ;
+        
     }
     
 

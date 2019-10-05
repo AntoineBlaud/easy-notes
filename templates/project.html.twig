@@ -1,0 +1,208 @@
+{% extends "base.html.twig" %}
+{% block stylesheets %}{% endblock %}
+{% block body %}
+
+    <!-- Button Append Document and Append Folder -->
+    <div class="row">
+        <div class="col-1">
+        <h4 style="margin-top: 15px; margin-left: 20px">PROJECT</h4></div>
+        <div class="btn-group col-1">
+            {% if return %}
+            <a class="btn btn-secondary btn-sm" href="/project" role="button"><i class="fas fa-arrow-left"></i></a>
+            {% endif %}
+        </div>
+        <div class="col-2"></div>
+        <div class="btn-group col-2">
+            <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#createDocument">
+                <i class="fas fa-plus"></i>
+                Document</button>
+        </div>
+        <div class="btn-group col-2">
+                {% if create_folder %}
+            <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#createFolder">
+                <i class="fas fa-plus"></i>
+                Folder</button>
+                {% endif %}
+        </div>
+    </div>
+
+    <!-- Here print in / existing  folder -->
+    <div class="container">
+
+        {% if folders  %}
+            {% for folder in folders %}
+                <div class="card text-white bg-dark mb-3" style="max-width: 20rem;">
+                    <div class="card-header">Folder</div>
+                    <div class="card-body">
+                        <h4 class="card-title">{{folder.name}}</h4>
+                        <a href="{{folder.name}}" class="btn btn-primary btn-sm" style="position: absolute;bottom:10px;right: 20px;">Open</a>
+                    </div>
+                </div>
+                {% endfor%}
+            {% endif %}
+
+            <!-- Here print in / existing  documents -->
+
+            {% if documents %}
+                {% for document in documents %}
+                    <div class="card bg-light mb-3" style="max-width: 20rem;">
+                        <div class="card-header">Document</div>
+                        <div class="card-body">
+                            <h4 class="card-title">{{document.name}}</h4>
+                            <p class="card-text">{{document.description}}</p>
+                             <a href="{{document.name}}" class="btn btn-primary btn-sm" style="position: absolute;bottom:10px;right: 20px;">Open</a>
+                        </div>
+                    </div>
+                    {% endfor%}
+                {% endif %}
+
+            </div>
+
+
+            <!-- Modal Create Document-->
+            <div class="modal fade" id="createDocument" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="createDocumentTitle">Create document</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="modal-body">
+                                {{form_start(form_document)}}
+                                <div class="input-group form-group">
+                                    {{form_row(form_document.name)}}
+
+                                </div>
+                                <div class="input-group form-group">
+                                    {{form_row(form_document.description)}}
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <input type="submit" value="Create" class="btn float-right btn-success">
+                                {{form_end(form_document)}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Create Folder-->
+            <div class="modal fade" id="createFolder" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="createFolderTitle">Create Folder</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            {{form_start(form_folder)}}
+                            <div class="input-group form-group">
+                                {{form_row(form_folder.name)}}
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <input type="submit" value="Create" class="btn float-right btn-success">
+                            {{form_end(form_folder)}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <style>
+                .btn-group {
+                    margin-top: 5vh;
+                }
+                .btn-sm {
+                    padding: 0.4rem;
+                    font-size: 0.5rem;
+                }
+                .btn-group .btn + .btn,
+                .btn-group .btn + .btn-group,
+                .btn-group .btn-group + .btn,
+                .btn-group .btn-group + .btn-group {
+                    margin-left: 10px;
+                }
+                .container {
+                    padding-top: 3rem;
+                    padding-bottom: 3rem;
+                    flex-direction: row;
+                    display: flex;
+                    flex-wrap: wrap;
+                }
+                .card {
+                    min-width: 120px;
+                    margin-right: 1.5rem;
+                    width: 12%;
+                    height: 20%;
+                    min-height: 150px;
+                }
+                .mb-3,
+                .my-3 {
+                    margin-bottom: 1.5rem !important;
+                }
+                textarea,
+                textarea.form-control,
+                [contenteditable].form-control {
+                    -webkit-box-shadow: unset;
+                    box-shadow: unset;
+                    -webkit-transition: -webkit-box-shadow 0.2s;
+                    /* transition: -webkit-box-shadow 0.2s; */
+                    /* transition: box-shadow 0.2s; */
+                    transition: box-shadow 0.2s, -webkit-box-shadow 0.2s;
+                    border: 1px solid grey;
+                }
+                .input-group {
+                    position: relative;
+                    display: -webkit-box;
+                    display: -ms-flexbox;
+                    display: flex;
+                    flex-wrap: nowrap;
+                    -webkit-box-align: stretch;
+                    -ms-flex-align: stretch;
+                    align-items: stretch;
+                    width: 100%;
+                    flex-direction: row;
+                }
+                élément {
+                    padding-top: 0.5rem;
+                    padding-bottom: 0.5rem;
+                }
+                #document_name.form-control {
+                    display: inline-block;
+                    height: 0.5rem;
+                    width: 50%;
+                }
+                #folder_name.form-control {
+                    display: inline-block;
+                    height: 0.5rem;
+                    width: 50%;
+                }
+                .form-control {
+                    height: 0.5rem;
+                    width: 100%;
+                }
+                .form-group {
+                    width: 100%;
+                }
+                .card-title {
+                    font-size: 1em;
+                    font-weight: 1000;
+                }
+                .card-text {
+                    font-size: 0.7em;
+                }
+                a#return {
+                    color: black;
+                }
+
+            </style>
+        {% endblock %}
+        {% block javascripts %}{% endblock %}

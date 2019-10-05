@@ -1,0 +1,49 @@
+--------------------------------
+Nom:  Easy notes
+--------------------------------
+Description:
+Le projet a pour but de faciliter la prise de notes/ de cours en classe ou conférence à l'aide 
+d'outil divers telle que l'IA ou autre.
+
+--------------------------------
+Fonctionnalité:
+Le projet sera implémenté sur une interface web comprenant principalement un editeur de texte avec une dizaine de 
+Fonctionnalité telle que le soulignement, mettre en gras, etc...
+On utilisera plusieurs techniques afin de capter le plus d'informations et de faciliter au mieux l'étudiant.
+
+
+1) Speech-to-text:
+
+On utilise l'API google afin de transformer la voix en texte
+
+
+2) Word corrector:
+
+Chercher les mots qui ne sont pas bon et les corrige, notemment ceux qui ont un petit pourcentage
+( pourcentage de sureté fournit par google)
+
+
+3) Keyword And Courses Searcher
+
+Utilise la méthode TF-ID afin de reconnaître les mots clés dans le texte, et ensuite 
+utilise l'API google afin de rechercher des phrases / page / réference   similaire sur 
+le web
+
+
+4) Easy Capture
+
+Permet de capturer à l'aide du télephone une image (diapo), pour ensuite l'envoyer au projet en cour sur l'ordinateur. 
+Permet de récupérer du texte ou une image / graphe et de l'insérer dans le cours
+
+
+5) Une interface extrément travaillé
+
+Cetter interface comportera le cours editer, l'accès au micro, a la capture, mais aussi une sorte de (buffer) ou sont 
+rajouté les derniers texte google voice ou capturer.
+
+
+6) Marqueurs
+
+On peut réecouter l'audio qui sera couper en petite partie
+
+

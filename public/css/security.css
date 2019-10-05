@@ -98,4 +98,19 @@ i{
     margin:auto;
 }
 
-
+.form-control{
+    width: 90%;
+    padding-top: 0.5rem;
+    padding-bottom:0.5rem;
+    margin-left: 0.2rem;
+}
+.form-group{
+    width: 100%;
+}
+.required{
+    color: black;
+    font-weight: 400;
+}
+.card-body{
+    padding: 2rem;
+}

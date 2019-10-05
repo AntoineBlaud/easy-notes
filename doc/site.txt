@@ -1,0 +1,10 @@
+
+Le site doit pouvoir en plus des fonctionnalités présente dans overview.txt:
+
+-identifer l'utilisateur
+-pouvoir créditer son compte
+
+
+Des variables doit être faites pour les chemins.
+
+Besoin d'une classe info pour les api: pour les vérification, chemins, etc...

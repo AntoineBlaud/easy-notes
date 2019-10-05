@@ -7,29 +7,21 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
-use App\Entity\User;
+use App\Entity\Folder;
 
 
-class SignType extends AbstractType{
+class FolderType extends AbstractType{
 
     public function buildForm(FormBuilderInterface $builder, array $options){
 
-        $builder->add('username');
-        $builder->add('password');
-        $builder->add("confirmedPassword");
+        $builder->add('name',null,array('label' => 'Folder name:'));
 
     }
 
     public function configureOptions(\Symfony\Component\OptionsResolver\OptionsResolver $resolver)
     {
-        $resolver->setDefaults(['data_class' =>User::class]);
+        $resolver->setDefaults(['data_class' =>Folder::class]);
     }
 
 }
 
-
-
-
-
-
-?>

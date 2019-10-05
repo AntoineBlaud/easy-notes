@@ -1,0 +1,16 @@
+------------------------------------------------------
+Description du fonctionnement
+
+1) récuperer le micro à l'aide du JS
+
+2) L'envoyer au serveur
+
+3) Le serveur le convertit et l'envoie à google et attend la réponse
+
+4) Le serveur ne traite pas la réponse de google, il l'envoie au JS qui s'en occupe
+
+
+------------------------------------------------------
+A quoi il va falloir penser
+
+Vérifier le client (compte, crédit)

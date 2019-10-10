@@ -34,12 +34,16 @@ class SecurityController extends AbstractController{
     {
         $error = $authentificationUtils->getLastAuthenticationError();
         $lastUsername = $authentificationUtils->getLastUsername();
-        return $this->render('security/login.html.twig',
-    [
-        'last_username' => $lastUsername,
-        'error' => $error,
-        'message' =>null
-    ]);
+        if($this->getUser())
+            return $this->redirectToRoute('project');
+        else{
+            return $this->render('security/login.html.twig',
+        [
+            'last_username' => $lastUsername,
+            'error' => $error,
+            'message' =>null
+        ]);
+        }
 
     }
     /**
@@ -54,6 +58,10 @@ class SecurityController extends AbstractController{
      */
     public function signup(Request $request)
     {
+        // Si utilisateur connecté, on le redirige vers project
+        if($this->getUser())
+        return $this->redirectToRoute('project');
+
         $user = new User();
         $form = $this->createForm(SignType::class ,$user);
         $form->handleRequest($request);

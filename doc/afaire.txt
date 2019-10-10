@@ -1,6 +1,7 @@
 // faire repertoire utilisateur et bloquer acces 
 
 Faire Projet Page et index Page; Dimanche
+Ouvrir projet
 ecrire dans espace google        Dimanche
 mettre audio a disposition
 faire copier                     Dimanche

@@ -14,7 +14,6 @@ function activeRecording () {
       recorder.ondataavailable = e => {
         // add stream data to chunks
         chunks.push(e.data)
-        console.log('okay')
         // if recorder is 'inactive' then recording has finished
       }
       setTimeout(() => {
@@ -27,7 +26,6 @@ function activeRecording () {
           stream.getAudioTracks()[0].stop()
         }
       }, 13500)
-      // start recording with 1 second time between receiving 'ondataavailable' events
       recorder.start(1)
     })
     .catch(console.error)
@@ -36,7 +34,6 @@ function activeRecording () {
 function stopRecording () {
   document.getElementById('micAnimation').style.animationPlayState = 'paused'
   record = false
-  console.log('stopped')
 }
 function startRecording () {
   document.getElementById('micAnimation').style.animationPlayState = 'running'
@@ -45,7 +42,7 @@ function startRecording () {
 }
 
 async function sendRecording (chunks, recorder) {
-  console.log('sending')
+  console.log('sending..')
   let blob = new Blob(chunks, { type: 'audio/webm' })
   var file = new File([blob], 'test' + compt, { lastModified: 1534584790000 })
   var fd = new FormData()
@@ -59,11 +56,13 @@ async function sendRecording (chunks, recorder) {
     contentType: false
   }).done(function (data) {
     console.log(data)
+    document.getElementById('transcriptAudio').value =
+      document.getElementById('transcriptAudio').value + data
   })
-  compt += 1
+  this.compt += 1
 }
 
-function downloadRecording (chunks, recorder) {
+function downloadRecording (chunks) {
   // convert stream data chunks to a 'webm' audio format as a blob
   const blob = new Blob(chunks, { type: 'audio/webm' })
   // convert blob to URL so it can be assigned to a audio src attribute
@@ -77,4 +76,17 @@ function downloadRecording (chunks, recorder) {
   el.download = 'audio.webm'
   el.click()
   URL.revokeObjectURL(url)
+}
+
+function downloadLongAudio () {
+  $.ajax({
+    type: 'POST',
+    url: '/getlongaudio',
+    data: '',
+    processData: false,
+    contentType: false
+  }).done(function (data) {
+    document.getElementById('audioSource').src = data;
+    document.getElementById('audioPlay').load()
+  })
 }

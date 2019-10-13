@@ -1,6 +1,6 @@
 // faire repertoire utilisateur et bloquer acces 
 
-Faire Projet Page et index Page; Dimanche
+Faire index Page; Dimanche
 Ouvrir projet
 ecrire dans espace google        Dimanche
 mettre audio a disposition
@@ -13,3 +13,11 @@ Faire Capture
 
 
 faire correct word AI and TF-ID
+
+
+
+
+----------------------------- Vendredi
+
+Faire Image prise photo / rogner et inserer / detection de texte
+

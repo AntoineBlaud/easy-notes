@@ -34,6 +34,7 @@ class GoogleRequestController extends AbstractController{
     # The audio file's encoding, sample rate and language
     $config = new RecognitionConfig([
         'language_code' => 'fr-FR'
+
     ]);
 
     # Instantiates a client
@@ -41,18 +42,17 @@ class GoogleRequestController extends AbstractController{
 
     # Detects speech in the audio file
     $response = $client->recognize($config, $audio);
+    $transcript = "";
 
     # Print most likely transcription
     foreach ($response->getResults() as $result) {
         $alternatives = $result->getAlternatives();
         $mostLikely = $alternatives[0];
-        $transcript = $mostLikely->getTranscript();
-        file_put_contents("test.txt",$transcript. PHP_EOL,FILE_APPEND);
-        printf('Transcript: %s' . PHP_EOL, $transcript);
+        $transcript .= " ".$mostLikely->getTranscript();
     }
 
     $client->close();
-    return new Response(("OK"));
+    return new Response($transcript);
        
 }
 }

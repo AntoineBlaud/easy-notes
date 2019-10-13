@@ -1,249 +1,203 @@
 {% extends "base.html.twig" %}
-{% block stylesheets %}{% endblock %}
+{% block stylesheets %}
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+{% endblock %}
 {% block body %}
-    <div class="row">
-        <div class="col-1"></div>
-        <div class="col-6 editor">
-            <div id="main-editor"></div>
+    <div class="row top-bar">
+        <div class="col-1">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item active" aria-current="page">Edit</li>
+                </ol>
+            </nav>
         </div>
-        <div class="col-5">
+        <div class="col-4">
             <div class="btn-group" role="group" aria-label="Microphone" style="margin-top:1.5vh;">
-                <button type="button" id="record" onclick="startRecording()" class="btn btn-secondary">Record</button>
-                <button type="button" id="stop" onclick="stopRecording()" class="btn btn-secondary">Stop</button>
-                <button id="speech" class="btn" style="left:2vw;">
-                    <i class="fa fa-microphone" aria-hidden="true"></i>
+                <button type="button" id="record" onclick="startRecording()" class="btn btn-secondary ">Record</button>
+                <button type="button" id="stop" onclick="stopRecording()" class="btn btn-secondary ">Stop</button>
+                <button id="speech" class="btn" style="left:2vw;top:5px;">
+                    <i class="fa fa-microphone" aria-hidden="true" style="top:10px;position: absolute;right: 13.5px;"></i>
                     <div id="micAnimation" class="pulse-ring"></div>
                 </button>
                 <button class="btn" id="picture">
-                    <i class="fas fa-camera-retro"></i>
+                    <i class="fas fa-camera-retro" style="top:3px;"></i>
                 </button>
             </div>
         </div>
 
     </div>
-    <div class="row">
-        <div class="col-1"></div>
-        <div class="col-6">
-            <div id="google-editor"></div>
-        </div>
-        <div class="col-5">
-            <div class="card text-black  bg-secondary  mb-3 " id="reference" style="max-width: 100%;">
-                <div class="card-header">Found References</div>
-                <div class="card-body">
+</div>
+<div class="row">
+    <div class="col-9 editor">
+        <iframe height="900" align="middle" width="100%" border="0px" src="https://docs.google.com/document/d/1QX01b3XMs1FIjzDJda2ogGKdYllGJSIQHOoZbjUPr98/edit"></iframe>
+    </div>
+    <div class="col-3">
+        <div class="card text-black  bg-secondary  mb-3 " style="max-width: 100%;">
+            <div class="card-header">Recorded Audio
+                <button type="button" class="btn btn-link float-right" onclick="changeState('audio')">
+                    <i class="fas fa-angle-down float-right"></i>
+                </button>
+            </div>
+            <div class="card-body row" id="audio">
+                <div class="col-12">
                     <h4 class="card-title"></h4>
-                    <p class="card-text"></p>
+                    <button type="button" class="btn btn-outline-info" onclick="downloadLongAudio()">Get audio</button>
+                </div>
+                <div class="col-12" style="margin-top:2vh">
+                    <audio preload="none" controls id="audioPlay" style="width:100%;background-color:#7364b3">
+                        <source id="audioSource" src="" type="audio/flac">
+                    </audio>
                 </div>
             </div>
         </div>
+        <div class="card text-black  bg-secondary  mb-3 " style="max-width: 100%;">
+            <div class="card-header">Found audio
+                <button type="button" class="btn btn-link float-right" onclick="changeState('audioText')">
+                    <i class="fas fa-angle-down float-right"></i>
+                </button>
+            </div>
+            <div class="card-body" id="audioText">
+                <h4 class="card-title"></h4>
+                <textarea class="form-control" id="transcriptAudio" rows="5" ;></textarea>
+                <button type="button" class="btn btn-link float-right" onclick="copy()" >
+                    <i class="far fa-copy"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card text-black  bg-secondary  mb-3 " style="max-width: 100%;">
+            <div class="card-header">Found References
+                <button type="button" class="btn btn-link float-right" onclick="changeState('reference')">
+                    <i class="fas fa-angle-down float-right"></i>
+                </button>
+            </div>
+            <div class="card-body" id="reference">
+                <h4 class="card-title"></h4>
+                <p class="card-text"></p>
+            </div>
+        </div>
     </div>
+</div></body><style>
 
+#picture {
+    font-size: 2.5em;
+    padding: 0 7px;
+    left: 4vw;
+}
+.top-bar {
+    margin-bottom: 1vh;
+}
+#speech.btn {
+    border: none;
+    padding: 0;
+    border-radius: 100%;
+    width: 40px;
+    height: 40px;
+    font-size: 1.5em;
+    color: #FFF;
+    margin: 0;
+    position: relative;
+    display: inline-block;
+    line-height: 50px;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    background-color: #FF3D7F;
+    top: 4px;
+}
 
-    <style>
-        .editor {
-            margin-top: 1.5vh;
-            width: 100%;
-        }
-        #main-editor {
-            height: 68vh;
-        }
-        #picture {
-            font-size: 2.5em;
-            padding: 0 7px;
-            background-color: #e6e6e6;
-            left: 4vw;
-        }
-        #reference {
-            top: -66vh;
-            width: 90%;
-        }
-        .btn {
-            font-size: 0.9em;
-        }
+.pulse-ring {
+    content: '';
+    width: 40px;
+    height: 40px;
+    border: 5px solid #FF3D7F;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation: pulsate infinite 2s;
+    animation-play-state: paused;
+}
 
+@-webkit-keyframes pulsate {
+    0% {
+        -webkit-transform: scale(1, 1);
+        opacity: 1;
+    }
+    100% {
+        -webkit-transform: scale(1.3, 1.3);
+        opacity: 0;
+    }
+}
+#top-bar.btn {
+    padding: 0.4rem;
+    height: 50px;
+    width: 70px;
+    font-size: 0.9em;
+}
+.btn-link.btn {
+    padding: 0px;
+    font-size: 1.5em;
+}
+iframe {
+    border: 0;
+    background-color: white;
+}
+.breadcrumb {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.2rem;
+    margin-top: 0.2rem;
+    list-style: none;
+    background-color: white;
+    border-radius: 0.25rem;
+    font-size: 1.2em;
+    font-weight: 500;
+}
+.form-control {
+    padding: 0;
+}
+.col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12, .col, .col-auto, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm, .col-sm-auto, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12, .col-md, .col-md-auto, .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg, .col-lg-auto, .col-xl-1, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl, .col-xl-auto {
+	position: relative;
+	width: 100%;
+	padding-right: 10px;
+	padding-left: 10px;
+}
+</style>{% endblock %}{% block javascripts %}<script src="{{ asset('/scripts/audio.js') }}"></script>
+<script>
+window.onload = function clear () {
+    document.getElementById('transcriptAudio').value =  "" 
+}
+function changeState(obj) {
+    if (document.getElementById(obj).style.display == 'none') {
+        document.getElementById(obj).style.display = 'block'
+    } else {
+        document.getElementById(obj).style.display = 'none'
+    }
+}
 
-        #speech.btn {
-            border: none;
-            padding: 0;
-            border-radius: 100%;
-            width: 40px;
-            height: 40px;
-            font-size: 1.5em;
-            color: #FFF;
-            margin: 0;
-            position: relative;
-            display: inline-block;
-            line-height: 50px;
-            text-align: center;
-            white-space: nowrap;
-            vertical-align: middle;
-            -ms-touch-action: manipulation;
-            touch-action: manipulation;
-            cursor: pointer;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            background-image: none;
-            background-color: #FF3D7F;
-            top: 4px;
-        }
+function copy() {
+  /* Get the text field */
+  var copyText = document.getElementById("transcriptAudio");
 
-        .pulse-ring {
-            content: '';
-            width: 40px;
-            height: 40px;
-            border: 5px solid #FF3D7F;
-            border-radius: 50%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            animation: pulsate infinite 2s;
-            animation-play-state: paused;
-        }
+  /* Select the text field */
+  copyText.select();
+  copyText.setSelectionRange(0, 99999); /*For mobile devices*/
 
-        @-webkit-keyframes pulsate {
-            0% {
-                -webkit-transform: scale(1, 1);
-                opacity: 1;
-            }
-            100% {
-                -webkit-transform: scale(1.3, 1.3);
-                opacity: 0;
-            }
-        }
-    </style>
+  /* Copy the text inside the text field */
+  document.execCommand("copy");
 
-{% endblock %}
-{% block javascripts %}
-    <script>
-        // <-- Initialize Quill editor -->
-        var quill = new Quill('#main-editor', {
-            modules: {
-                toolbar: [
-                    [
-                        'bold', 'italic', 'underline', 'strike'
-                    ], // toggled buttons
-                    [
-                        'blockquote', 'code-block', 'link', 'image'
-                    ],
-                    [
-                        {
-                            'color': []
-                        }, {
-                            'background': []
-                        }
-                    ], // dropdown with defaults from theme
+}
 
-                    [
-                        {
-                            'list': 'ordered'
-                        }, {
-                            'list': 'bullet'
-                        }, {
-                            'align': []
-                        }
-                    ],
-                    [
-                        {
-                            'script': 'sub'
-                        }, {
-                            'script': 'super'
-                        }
-                    ], // superscript/subscript
-
-
-                    [
-                        {
-                            'size': ['small', false, 'large', 'huge']
-                        }
-                    ], // custom dropdown
-                    [
-                        {
-                            'header': [
-                                1,
-                                2,
-                                3,
-                                4,
-                                5,
-                                6,
-                                false
-                            ]
-                        }
-                    ],
-
-                    [
-                        {
-                            'font': []
-                        }
-                    ],
-                ]
-            },
-            placeholder: 'Compose an epic...',
-            theme: 'snow' // or 'bubble'
-        });
-        quill.on('text-change', function (delta, oldDelta, source) {
-            if (source == 'api') {
-                console.log("An API call triggered this change.");
-            } else if (source == 'user') {
-                console.log("A user action triggered this change.");
-            }
-        });
-
-        var quill2 = new Quill('#google-editor', {
-            modules: {
-                toolbar: false,
-                syntax: true
-            },
-            placeholder: 'waiting google response...',
-            theme: 'snow'
-        });
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/interact.js/1.2.6/interact.min.js"></script>
-    <script>
-        interact('.resizable').draggable({onmove: window.dragMoveListener}).resizable({
-            preserveAspectRatio: true,
-            edges: {
-                left: true,
-                right: true,
-                bottom: true,
-                top: true
-            }
-        }).on('resizemove', function (event) {
-            var target = event.target,
-                x = (parseFloat(target.getAttribute('data-x')) || 0),
-                y = (parseFloat(target.getAttribute('data-y')) || 0);
-
-            // update the element's style
-            target.style.width = event.rect.width + 'px';
-            target.style.height = event.rect.height + 'px';
-
-            // translate when resizing from top or left edges
-            x += event.deltaRect.left;
-            // y += event.deltaRect.top;
-
-            target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px,' + y + 'px)';
-
-            target.setAttribute('data-x', x);
-            target.setAttribute('data-y', y);
-            target.textContent = event.rect.width + '×' + event.rect.height;
-        });
-
-        function dragMoveListener(event) {
-            var target = event.target,
-                // keep the dragged position in the data-x/data-y attributes
-                x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
-                y = (parseFloat(target.getAttribute('data-y')) || 0)
-            // + event.dy;
-
-            // translate the element
-            target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
-
-            // update the posiion attributes
-            target.setAttribute('data-x', x);
-            target.setAttribute('data-y', y);
-        }
-    </script>
-
-
-    <script src="{{ asset('/scripts/record.js') }}"></script>
-{% endblock %}
+</script>{% endblock %}

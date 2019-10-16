@@ -9,14 +9,15 @@ use Symfony\Component\HttpFoundation\Response;
 class ExchangeDataController extends AbstractController{
 
     /**
-     * @Route("/getAudioTranscript", name="getAudioTranscript.index")
+     * @Route("/getcapturedimages", name="getcapturedimages")
      */
 
-    private $transcript = array();
-
-    public function getAudioTranscript():Response
+    public function getCapturedImages():Response
     {
-        return $this->render('home.html.twig');
+        $this->getUser();
+        $dir = "/uploaded_images";
+        $scannedDir = scandir($dir);
+        
 
     }
 }

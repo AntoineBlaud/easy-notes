@@ -3,6 +3,11 @@
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 {% endblock %}
 {% block body %}
+    <div id="loading">
+        <div id="fa-loader">
+            <i style="position: relative; top: 30px;" class="fa fa-spinner fa-7x fa-spin"></i>
+        </div>
+    </div>
     <div class="row top-bar">
         <div class="col-1">
             <nav aria-label="breadcrumb">
@@ -59,7 +64,7 @@
             <div class="card-body" id="audioText">
                 <h4 class="card-title"></h4>
                 <textarea class="form-control" id="transcriptAudio" rows="5" ;></textarea>
-                <button type="button" class="btn btn-link float-right" onclick="copy()" >
+                <button type="button" class="btn btn-link float-right" onclick="copy()">
                     <i class="far fa-copy"></i>
                 </button>
             </div>
@@ -77,6 +82,20 @@
         </div>
     </div>
 </div></body><style>
+#loading {
+    width: 100vw;
+    height: 100vh;
+    background-color: white;
+    z-index: 2;
+    justify-content: center !important;
+}
+#fa-loader {
+    margin: auto;
+    text-align: center;
+    top: 200px;
+    position: relative;
+
+}
 
 #picture {
     font-size: 2.5em;
@@ -143,7 +162,7 @@
     font-size: 0.9em;
 }
 .btn-link.btn {
-    padding: 0px;
+    padding: 0;
     font-size: 1.5em;
 }
 iframe {
@@ -168,16 +187,84 @@ iframe {
 .form-control {
     padding: 0;
 }
-.col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12, .col, .col-auto, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm, .col-sm-auto, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12, .col-md, .col-md-auto, .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg, .col-lg-auto, .col-xl-1, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl, .col-xl-auto {
-	position: relative;
-	width: 100%;
-	padding-right: 10px;
-	padding-left: 10px;
-}
-</style>{% endblock %}{% block javascripts %}<script src="{{ asset('/scripts/audio.js') }}"></script>
-<script>
-window.onload = function clear () {
-    document.getElementById('transcriptAudio').value =  "" 
+.col-1,
+.col-2,
+.col-3,
+.col-4,
+.col-5,
+.col-6,
+.col-7,
+.col-8,
+.col-9,
+.col-10,
+.col-11,
+.col-12,
+.col,
+.col-auto,
+.col-sm-1,
+.col-sm-2,
+.col-sm-3,
+.col-sm-4,
+.col-sm-5,
+.col-sm-6,
+.col-sm-7,
+.col-sm-8,
+.col-sm-9,
+.col-sm-10,
+.col-sm-11,
+.col-sm-12,
+.col-sm,
+.col-sm-auto,
+.col-md-1,
+.col-md-2,
+.col-md-3,
+.col-md-4,
+.col-md-5,
+.col-md-6,
+.col-md-7,
+.col-md-8,
+.col-md-9,
+.col-md-10,
+.col-md-11,
+.col-md-12,
+.col-md,
+.col-md-auto,
+.col-lg-1,
+.col-lg-2,
+.col-lg-3,
+.col-lg-4,
+.col-lg-5,
+.col-lg-6,
+.col-lg-7,
+.col-lg-8,
+.col-lg-9,
+.col-lg-10,
+.col-lg-11,
+.col-lg-12,
+.col-lg,
+.col-lg-auto,
+.col-xl-1,
+.col-xl-2,
+.col-xl-3,
+.col-xl-4,
+.col-xl-5,
+.col-xl-6,
+.col-xl-7,
+.col-xl-8,
+.col-xl-9,
+.col-xl-10,
+.col-xl-11,
+.col-xl-12,
+.col-xl,
+.col-xl-auto {
+    position: relative;
+    width: 100%;
+    padding-right: 10px;
+    padding-left: 10px;
+}</style>{% endblock %}{% block javascripts %}<!-- JAVASCRIPT--><script src="{{ asset('/scripts/audio.js') }}"></script><script>
+
+if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+    document.location.href = "/capture"
 }
 function changeState(obj) {
     if (document.getElementById(obj).style.display == 'none') {
@@ -187,17 +274,19 @@ function changeState(obj) {
     }
 }
 
-function copy() {
-  /* Get the text field */
-  var copyText = document.getElementById("transcriptAudio");
+function copy() { /* Get the text field */
+    var copyText = document.getElementById("transcriptAudio");
 
-  /* Select the text field */
-  copyText.select();
-  copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+    /* Select the text field */
+    copyText.select();
+    copyText.setSelectionRange(0, 99999);
+    /*For mobile devices*/
 
-  /* Copy the text inside the text field */
-  document.execCommand("copy");
+    /* Copy the text inside the text field */
+    document.execCommand("copy");
+};
 
-}
-
-</script>{% endblock %}
+window.onload = function () {
+    document.getElementById("loading").style.display = "none"
+    document.getElementById('transcriptAudio').value = ""
+}</script>{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html.twig" %}
+{% block title %}Easy-notes
+{% endblock %}
+{% block body %}
+    {% if received == true %}
+        <div class="alert alert-success">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            Data received
+        </div>
+    {% endif %}
+    <form method="post" enctype="multipart/form-data" action="uploadimage">
+        <div class="form-group">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active">
+                    <label for="file">Take a picture or choose a photo already taken</label>
+                </li>
+            </ol>
+            <input type="file" name="images[]" class="btn btn-outline-info" style="margin: 20px;max-width: 88%;" accept="image/*;capture=camera" multiple>
+            <input class="btn btn-outline-success" style="float:right; margin: 20px;" type="submit" value="Send">
+        </div>
+    </form>
+{% endblock %}
+{% block javascripts %}{% endblock %}

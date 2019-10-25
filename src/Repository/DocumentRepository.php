@@ -74,4 +74,17 @@ class DocumentRepository extends ServiceEntityRepository
         }
     }
 
+    public function findDocumentWithUniqId($uniqid)
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+        'SELECT p 
+            FROM App\Entity\Document AS p
+            WHERE p.uniqid = :uniqid '
+        )->setParameters(array('uniqid'=>$uniqid));
+
+        return $query->execute();
+
+    }
+
 }

@@ -15,9 +15,11 @@ class ExchangeDataController extends AbstractController{
     public function getCapturedImages():Response
     {
         $this->getUser();
-        $dir = "/uploaded_images";
+        $dir = "uploaded_images/";
         $scannedDir = scandir($dir);
-        
+        unset($scannedDir[0]);
+        unset($scannedDir[1]);
+        return new Response(implode("::",$scannedDir));        
 
     }
 }

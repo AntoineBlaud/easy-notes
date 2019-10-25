@@ -19,7 +19,7 @@ class Folder
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=12)
      */
     private $name;
 

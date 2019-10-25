@@ -17,7 +17,7 @@ class Document
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=12)
      */
     private $name;
 
@@ -37,6 +37,11 @@ class Document
      * @ORM\Column(type="text", length=400)
      */
     private $description;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $uniqid;
 
     public function getId(): ?int
     {
@@ -87,6 +92,18 @@ class Document
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getUniqid(): ?string
+    {
+        return $this->uniqid;
+    }
+
+    public function setUniqid(string $uniqid): self
+    {
+        $this->uniqid = $uniqid;
 
         return $this;
     }

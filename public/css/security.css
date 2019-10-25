@@ -2,26 +2,13 @@
 
 @import url('https://fonts.googleapis.com/css?family=Numans');
 
-html,body{
-background-image: linear-gradient(to right top, #051937, #0b3053, #0e496f, #10648b, #1480a6);;
-background-size: cover;
-background-repeat: no-repeat;
-height: 100%;
-font-family: 'Numans', sans-serif;
-}
+
 
 .container{
 height: 100%;
 align-content: center;
 }
 
-.card{
-height: auto;
-margin-top: auto;
-margin-bottom: auto;
-width: 400px;
-background-color: rgb(255, 255, 255) !important;
-}
 
 .social_icon span{
 font-size: 60px;
@@ -111,7 +98,7 @@ i{
     font-weight: 400;
 }
 .card-body{
-    padding: 2rem;
+    padding: 1rem;
 }
 .form-control, .form-select {
 	min-height: 34px;

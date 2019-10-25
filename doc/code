@@ -31,3 +31,27 @@
 https://developers.google.com/drive/api/v3/quickstart/js
 
 You can also create a blank document using the Google Drive API Files.create method, specifying application/vnd.google-apps.document as the mimeType. You'll need an appropriate Drive API scope to authorize this call. 
+
+
+https://www.youtube.com/watch?v=g0AofWy6ZyI
+https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=3&ved=2ahUKEwjcgJvFhLflAhUOXRoKHY1-DLMQFjACegQIDBAG&url=https%3A%2F%2Fedu.gcfglobal.org%2Fen%2Fgoogledriveanddocs%2Fcreating-google-docs%2F1%2F&usg=AOvVaw105wDaQ2DhArpZ704J5bzm
+
+<?php
+require_once '/path/to/google-api-php-client/vendor/autoload.php';
+
+putenv('GOOGLE_APPLICATION_CREDENTIALS=/path/to/service-account.json');
+
+$client = new Google_Client();
+$client->useApplicationDefaultCredentials();
+$client->setScopes(['https://www.googleapis.com/auth/drive']);
+$client->setSubject('email_of_account@you_want_to_work.for');
+
+$service = new Google_Service_Drive($client);
+
+//Create a new folder
+$fileMetadata = new Google_Service_Drive_DriveFile(
+     array('name' => 'Invoices', 
+           'mimeType' => 'application/vnd.google-apps.folder'));
+$file = $service->files->create($fileMetadata, array('fields' => 'id'));
+echo $file->id;
+?>

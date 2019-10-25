@@ -15,9 +15,11 @@ security:
       form_login:
         check_path: login
         provider: from_database
+        default_target_path: /projects
 
       logout:
         path: logout
+        #target: /home
 
       # activate different ways to authenticate
       # https://symfony.com/doc/current/security.html#firewalls-authentication

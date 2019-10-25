@@ -14,46 +14,133 @@
 
             <div class="view">
                 <nav class="navbar navbar-expand-lg  row">
-                    <div class="col-5">
-                        <a class="navbar-brand" href="#">
+                    <div class="col-4">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-bars"></i>
                         </a>
-                    </nav>
+                        <div class="dropdown-menu">
+                            {% if not connected %}
+                                <a class="dropdown-item" href="/login">Login</a>
+                                <a class="dropdown-item" href="/signup">Sign up</a>
+                            {% endif %}
+                            <a class="dropdown-item" href="#">Documentation</a>
+                            {% if connected %}
+                            <a class="dropdown-item" href="projects">Projects</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/logout">Logout</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-4"></div>
+                    <div class="col-4"></div>
+                </nav>
+                <div class="row">
+                    <div class="col-6"></div>
+                    <div class="col-4">
+                        <h1 style="font-size:9em">EASY-NOTES</h1>
+                    </div>
                 </div>
+                <div class="content row">
 
-                <div class="content row"></div>
+                    <div class="card">
+                        <div class="card-header">
+                            Qu'est ce que EASY-NOTES ?
+                        </div>
+                        <div class="card-body">
+                            <blockquote class="blockquote mb-0">
+                                <p> EASY-NOTES est un service en ligne permettant de prendre des notes de cours. Cependant au delà de ça, il permet aussi de capturer facilement de l'audio
+                                et des images, et de pouvoir les retranscrire en texte. En quelques secondes vous pouvez prendre la photo avec votre téléphone et l'ajouter à votre document sur l'ordinateur.
+                                EASY-NOTES possède aussi d'autre fonctionnalité que vous pourrez découvrir au travers de l'interface</p>
+                                <footer >
+                                </footer>
+                            </blockquote>
+                        </div>
+                    </div>
 
-                <style>
-                    .navbar {
-                        border: none;
-                        -webkit-box-shadow: none;
-                        box-shadow: none;
-                    }
-                    .navbar-brand {
-                        color: #ffffff;
-                        font-size: 2em;
-                    }
-                    nav {
-                        background: none;
-                    }
-                    .view {
-                        background-image: url('https://mdbootstrap.com/img/Photos/Others/images/91.jpg');
-                        height: 80vh;
-                        margin: auto;
-                        background-repeat: no-repeat;
-                        background-size: cover;
-                        background-position: center center;
-                    }
-                </style>
-                {% block body %}{% endblock %}
+
+                    <div class="card">
+                        <div class="card-header">
+                            Pourquoi avoir crée EASY-NOTES?
+                        </div>
+                        <div class="card-body">
+                            <blockquote class="blockquote mb-0">
+                                <p>EASY-NOTES est la pour tout simplement vous faciliter grandement la prise de notes qui est parfois fastidieuse. 
+                            </p>
+                                <footer >
+                                </footer>
+                            </blockquote>
+                        </div>
+                    </div>
+
+
+                    <div class="card">
+                        <div class="card-header">
+                            Comment utiliser EASY-NOTES ?
+                        </div>
+                        <div class="card-body">
+                            <blockquote class="blockquote mb-0">
+                                <p>Rien de plus simple ! Commencer par vous créer un compte. Ensuite vous avez simplement à accéder à la page projet et à créer un nouveau document, puis l'ouvrir.
+                                Accéder à la documentation pour des explications plus détaillé.</p>
+
+                                <footer >
+                                </footer>
+                            </blockquote>
+                        </div>
+                    </div>
+                </div>
             </body>
-            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-            <script src="https://unpkg.com/konva@4.0.12/konva.min.js"></script>
-
-
-            {% block javascripts %}{% endblock %}
         </body>
     </html>
+</body></html><style>
+.navbar {
+    border: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+.navbar-brand {
+    color: #ffffff;
+    font-size: 2em;
+}
+nav {
+    background: none;
+}
+.view {
+    background-image: url({{ asset("ballpen-black.jpg") }});
+    height: 100vh;
+    width: 100vw;
+    margin: none;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+}
+.content {
+    position: absolute;
+    top: 50vh;
+    margin: auto;
+}
+.card {
+    width: 25vw;
+    margin: 4vw;
+}
+.card-header{
+    font-size: 1.2em;
+}
+.dropdown-toggle::after {
+    display: none;
+
+}
+a.nav-link{
+    text-decoration: none;
+}
+a.nav-link:hover{
+    color:#c2c2c2;
+}
+.dropdown-toggle {
+
+    color: white;
+    font-size: 3em;
+}
+.dropdown-menu {
+    background-color: rgba(255, 255, 255, 0.98);
+    font-size: 1.35em;
+}</style>{% block body %}{% endblock %}</body><script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script><script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script><script src="https://unpkg.com/konva@4.0.12/konva.min.js"></script>{% block javascripts %}{% endblock %}</html></body></html>

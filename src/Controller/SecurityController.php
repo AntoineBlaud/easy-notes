@@ -6,9 +6,7 @@ use App\Entity\User;
 use App\Form\SignType;
 use App\Repository\UserRepository;
 use Doctrine\Common\Persistence\ObjectManager;
-use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -58,9 +56,11 @@ class SecurityController extends AbstractController{
      */
     public function signup(Request $request)
     {
-        // Si utilisateur connecté, on le redirige vers project
+        $a = $this->getUser();
+        // Si utilisateur connecté, on le redirige vers /
+
         if($this->getUser())
-        return $this->redirectToRoute('project');
+        return $this->redirectToRoute('/');
 
         $user = new User();
         $form = $this->createForm(SignType::class ,$user);
@@ -90,7 +90,8 @@ class SecurityController extends AbstractController{
                         chdir('users');
                         mkdir($username);
                         chdir($username);
-                        mkdir('audio');
+                        mkdir('projects');
+                        mkdir('backups');
                         return $this->render("security/login.html.twig",[
                         'error' => null,
                         'message' =>"Account created !"

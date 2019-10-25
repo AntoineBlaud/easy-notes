@@ -3,9 +3,8 @@
 Faire index Page; Dimanche
 Ouvrir projet
 ecrire dans espace google        Dimanche
-mettre audio a disposition
-faire copier                     Dimanche
 Faire Capture
+min-height, width
 
 ---------------------------
 
@@ -19,5 +18,9 @@ faire correct word AI and TF-ID
 
 ----------------------------- Vendredi
 
-Faire Image prise photo / rogner et inserer / detection de texte
+Faire tout bien: 
+    Creation utilisateur
+    Faire Ouverture de projet
+    Suppression projet
+    Image
 

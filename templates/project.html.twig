@@ -5,24 +5,27 @@
     <!-- Button Append Document and Append Folder -->
     <div class="row">
         <div class="col-1">
-        <h4 style="margin-top: 15px; margin-left: 20px">Projects</h4></div>
+            <h4 style="margin-top: 15px; margin-left: 20px">Projects</h4>
+        </div>
         <div class="btn-group col-1">
             {% if return %}
-            <a class="btn btn-secondary btn-sm" href="/project" role="button"><i class="fas fa-arrow-left"></i></a>
+                <a class="btn btn-secondary btn" href="/projects" role="button">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
             {% endif %}
         </div>
         <div class="col-2"></div>
         <div class="btn-group col-2">
-            <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#createDocument">
+            <button type="button" class="btn btn-secondary btn" data-toggle="modal" data-target="#createDocument">
                 <i class="fas fa-plus"></i>
                 Document</button>
         </div>
         <div class="btn-group col-2">
-                {% if create_folder %}
-            <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#createFolder">
-                <i class="fas fa-plus"></i>
-                Folder</button>
-                {% endif %}
+            {% if create_folder %}
+                <button type="button" class="btn btn-secondary btn" data-toggle="modal" data-target="#createFolder">
+                    <i class="fas fa-plus"></i>
+                    Folder</button>
+            {% endif %}
         </div>
     </div>
 
@@ -31,12 +34,13 @@
 
         {% if folders  %}
             {% for folder in folders %}
-                <div class="card border-dark mb-3" style="max-width: 20rem;">
-                    <div class="card-header"> <SPAN style="font-weight : 700;">Folder</SPAN> <i style="float:right" class="far fa-folder-open"></i></div>
-                    <div class="card-body">
-                        <h4 class="card-title">{{folder.name}}</h4>
-                        <a href="{{folder.name}}" class="btn btn-primary btn-sm" style="position: absolute;bottom:10px;right: 20px;">Open</a>
-                    </div>
+                <div class="card bg-grey mb-3">
+                    <a href="{{folder.name}}" class="btn btn-sm" style="height: 100%;">
+                        <div class="card-header" style="font-size: 1.3em;">
+                            <SPAN class="float-left" style="font-weight : 700;">{{ folder.name }}</SPAN>
+                            <i style="float:right;font-size: 1.2em;right: 16px;position: absolute;top: 20px; " class="far fa-folder-open"></i>
+                        </div>
+                    </a>
                 </div>
                 {% endfor%}
             {% endif %}
@@ -45,13 +49,15 @@
 
             {% if documents %}
                 {% for document in documents %}
-                    <div class="card bg-light mb-3" style="max-width: 20rem;">
-                        <div class="card-header">Document <i style="float:right" class="far fa-file"></i></div>
-                        <div class="card-body">
-                            <h4 class="card-title">{{document.name}}</h4>
-                            <p class="card-text">{{document.description}}</p>
-                             <a href="{{document.name}}" class="btn btn-primary btn-sm" style="position: absolute;bottom:10px;right: 20px;">Open</a>
-                        </div>
+                    <div class="card  mb-3">
+                        <a href="/edit?doc={{document.uniqid}}" class="btn btn-sm" style="height: 100%;">
+                            <div class="card-header" style="font-size: 1.3em;position: absolute;width:100%;">
+                                <SPAN class="float-left" style="font-weight : 700;top:-15px">{{ document.name }}</SPAN>
+                                <button type="button" style="float: right;margin: 0px;padding: 2px;" class="btn btn-link" data-toggle="tooltip" data-html="true" title="{{ document.description }}">
+                                    <i style='float:right' class='far fa-file'></i>
+                                </button>
+                            </div>
+                        </a>
                     </div>
                     {% endfor%}
                 {% endif %}
@@ -140,9 +146,8 @@
                 .card {
                     min-width: 120px;
                     margin-right: 1.5rem;
-                    width: 12%;
-                    height: 20%;
-                    min-height: 150px;
+                    width: 10%;
+                    height: 50px;
                 }
                 .mb-3,
                 .my-3 {
@@ -194,7 +199,7 @@
                 }
                 .card-title {
                     font-size: 1em;
-                    font-weight: 1000;
+                    font-weight: 100;
                 }
                 .card-text {
                     font-size: 0.7em;
@@ -202,7 +207,19 @@
                 a#return {
                     color: black;
                 }
-
+                .container {
+                    max-width: 1500px;
+                }
+                .card-body {
+                    padding: 0.35rem 1.25rem 1.25rem 0.5rem;
+                }
+                .card-header {
+                    background-color: transparent;
+                    font-size: 1em;
+                }
+                .bg-grey {
+                    background-color: #edebeb;
+                }
             </style>
         {% endblock %}
         {% block javascripts %}{% endblock %}

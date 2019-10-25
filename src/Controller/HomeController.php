@@ -8,12 +8,19 @@ use Symfony\Component\HttpFoundation\Response;
 
 class HomeController extends AbstractController{
 
+    private $connected;
+
     /**
-     * @Route("/home", name="home")
+     * @Route("/", name="home")
      */
     public function index():Response
     {
-        return $this->render('home.html.twig');
+        if($this->getUser())
+            $this->connected = true;
+        else
+            $this->connected = false;
+        return $this->render('home.html.twig',
+    ["connected" =>$this->connected]);
 
     }
 }

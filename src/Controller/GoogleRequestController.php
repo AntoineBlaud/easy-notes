@@ -13,15 +13,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Google\Cloud\Speech\V1\SpeechClient;
 use Google\Cloud\Speech\V1\RecognitionAudio;
 use Google\Cloud\Speech\V1\RecognitionConfig;
-use Google\Cloud\Speech\V1\RecognitionConfig\AudioEncoding;
 
 class GoogleRequestController extends AbstractController{
 
 
     /**
-     * @Route("/sendGoogleAudioRequest", name="googleRequest.sendGoogleAudioRequest")
+     * @Route("/sendGoogleAudioRequest", name=".sendGoogleAudioRequest")
      */
-    public function sendgoogleaudiorequest($audio)
+    public function sendGoogleAudioRequest($audio)
     {
 
     # get contents of a file into a string
@@ -54,7 +53,20 @@ class GoogleRequestController extends AbstractController{
     $client->close();
     return new Response($transcript);
        
-}
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 

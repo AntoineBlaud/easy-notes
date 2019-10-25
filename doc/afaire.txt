@@ -1,26 +1,4 @@
-// faire repertoire utilisateur et bloquer acces 
 
-Faire index Page; Dimanche
-Ouvrir projet
-ecrire dans espace google        Dimanche
-Faire Capture
-min-height, width
-
----------------------------
-
-
-
-
-faire correct word AI and TF-ID
-
-
-
-
------------------------------ Vendredi
-
-Faire tout bien: 
-    Creation utilisateur
-    Faire Ouverture de projet
-    Suppression projet
-    Image
+Faire edit suite ouverture projet, chargement image audio et sauvegarde.
+Faire api google google doc 
 

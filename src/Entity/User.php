@@ -45,6 +45,11 @@ class User implements UserInterface, Serializable
      */
     private $documents;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $openedEdit;
+
     public function __construct()
     {
         $this->folders = new ArrayCollection();
@@ -179,6 +184,18 @@ class User implements UserInterface, Serializable
                 $document->setOwner(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getOpenedEdit(): ?string
+    {
+        return $this->openedEdit;
+    }
+
+    public function setOpenedEdit(?string $openedEdit): self
+    {
+        $this->openedEdit = $openedEdit;
 
         return $this;
     }

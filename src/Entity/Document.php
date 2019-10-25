@@ -43,6 +43,11 @@ class Document
      */
     private $uniqid;
 
+     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $path;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -106,5 +111,19 @@ class Document
         $this->uniqid = $uniqid;
 
         return $this;
+    }
+    public function setPath() : self
+    {
+        $path = "";
+        if($this->getParentFolder() != null)
+            $path.= $this->getParentFolder()->getName();
+            
+        $path.= "/".$this->getName();
+        $this->path = $path;
+        return $this;
+    }
+    public function getPath(): string
+    {
+        return $this->path;
     }
 }

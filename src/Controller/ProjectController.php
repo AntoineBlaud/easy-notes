@@ -76,6 +76,7 @@ class ProjectController extends AbstractController{
                 // Set document infos
                 $create_document->setOwner($this->user);
                 $create_document->setUniqid(uniqid('',true));
+                $create_document->setPath();
 
                 // persist
                 $this->em->persist($create_document);
@@ -130,6 +131,7 @@ class ProjectController extends AbstractController{
                 $create_document->setOwner($this->user);
                 $create_document->setUniqid(uniqid('',true));
                 $create_document->setParentFolder($parent_folder);
+                $create_document->setPath();
 
                 // persist
                 $this->em->persist($create_document);

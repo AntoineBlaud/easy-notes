@@ -19,7 +19,7 @@ class DocumentRepository extends ServiceEntityRepository
         parent::__construct($registry, Document::class);
     }
 
-    public function findDocument($user, $parentFolder, $name)
+    public function findDocument($user, $parentFolder, $name) 
     {
         if($parentFolder == NULL)
         {
@@ -74,7 +74,7 @@ class DocumentRepository extends ServiceEntityRepository
         }
     }
 
-    public function findDocumentWithUniqId($uniqid)
+    public function findDocumentWithUniqId($uniqid) 
     {
         $entityManager = $this->getEntityManager();
         $query = $entityManager->createQuery(

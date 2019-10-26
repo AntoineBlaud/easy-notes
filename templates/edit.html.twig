@@ -1,44 +1,47 @@
 {% extends "base.html.twig" %}
 {% block stylesheets %}
-    <link href="edit.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.css" rel="stylesheet">
+<link href="edit.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.css" rel="stylesheet">
 
 {% endblock %}
 {% block body %}
-    <div id="loading">
-        <div id="fa-loader">
-            <i style="position: relative; top: 30px;" class="fa fa-spinner fa-7x fa-spin"></i>
+<div id="loading">
+    <div id="fa-loader">
+        <i style="position: relative; top: 30px;" class="fa fa-spinner fa-7x fa-spin"></i>
+    </div>
+</div>
+<div class="row top-bar" id="top-bar" style="display:none">
+    <div class="col-1">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active" aria-current="page">Edit</li>
+            </ol>
+        </nav>
+    </div>
+    <div class="col-4">
+        <div class="btn-group" role="group" aria-label="Microphone" style="margin-top:1.5vh;">
+            <button type="button" id="record" onclick="startRecording()" class="btn btn-secondary ">Record</button>
+            <button type="button" id="stop" onclick="stopRecording()" class="btn btn-secondary ">Stop</button>
+            <button id="speech" class="btn" style="left:2vw;top:5px;">
+                <i class="fa fa-microphone" aria-hidden="true" style="top:10px;position: absolute;right: 13.5px;"></i>
+                <div id="micAnimation" class="pulse-ring"></div>
+            </button>
+            <button class="btn" id="picture" data-toggle="modal" data-target="#capturedImages">
+                <i class="fas fa-camera-retro" style="top:3px;"></i>
+            </button>
         </div>
     </div>
-    <div class="row top-bar" id="top-bar" style="display:none">
-        <div class="col-1">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item active" aria-current="page">Edit</li>
-                </ol>
-            </nav>
-        </div>
-        <div class="col-4">
-            <div class="btn-group" role="group" aria-label="Microphone" style="margin-top:1.5vh;">
-                <button type="button" id="record" onclick="startRecording()" class="btn btn-secondary ">Record</button>
-                <button type="button" id="stop" onclick="stopRecording()" class="btn btn-secondary ">Stop</button>
-                <button id="speech" class="btn" style="left:2vw;top:5px;">
-                    <i class="fa fa-microphone" aria-hidden="true" style="top:10px;position: absolute;right: 13.5px;"></i>
-                    <div id="micAnimation" class="pulse-ring"></div>
-                </button>
-                <button class="btn" id="picture" data-toggle="modal" data-target="#capturedImages">
-                    <i class="fas fa-camera-retro" style="top:3px;"></i>
-                </button>
-            </div>
-        </div>
 
-    </div>
+</div>
 </div>
 <div class="row" id="main-content" style="display:none">
     <div class="col-9 editor">
-        <iframe height="900" align="middle" width="100%" border="0px" src="https://docs.google.com/document/d/1QX01b3XMs1FIjzDJda2ogGKdYllGJSIQHOoZbjUPr98/edit"></iframe>
+         <iframe height="900" align="middle" width="100%" border="0px"
+            src="https://docs.google.com/document/d/1MUPXlVgIBA8UvvSF0R2-3h5NcTdv53YlH57t0xj6QYY/edit?usp=sharing"></iframe> 
     </div>
+
     <div class="col-3">
+        <!-- Recorded Audio div -->
         <div class="card text-black  bg-secondary  mb-3 " style="max-width: 100%;">
             <div class="card-header">Recorded Audio
                 <button type="button" class="btn btn-link float-right" onclick="changeState('audio')">
@@ -52,11 +55,21 @@
                 </div>
                 <div class="col-12" style="margin-top:2vh">
                     <audio preload="none" controls id="audioPlay" style="width:100%;background-color:#7364b3">
-                        <source id="audioSource" src="" type="audio/flac">
+                        <source id="audioSource" src="{{ audio }}" type="audio/flac">
                     </audio>
                 </div>
             </div>
         </div>
+
+        <!-- Uploaded Images div -->
+        <div class="card text-black  bg-secondary  mb-3 " style="max-width: 100%;">
+            <div class="card-header">Uploaded Images
+            </div>
+            <div class="card-body" id="uploadedImage">
+            </div>
+        </div>
+
+        <!-- Found Audio div -->
         <div class="card text-black  bg-secondary  mb-3 " style="max-width: 100%;">
             <div class="card-header">Found audio
                 <button type="button" class="btn btn-link float-right" onclick="changeState('audioText')">
@@ -71,6 +84,8 @@
                 </button>
             </div>
         </div>
+
+        <!-- Found References div -->
         <div class="card text-black  bg-secondary  mb-3 " style="max-width: 100%;">
             <div class="card-header">Found References
                 <button type="button" class="btn btn-link float-right" onclick="changeState('reference')">
@@ -82,23 +97,25 @@
                 <p class="card-text"></p>
             </div>
         </div>
+
     </div>
 </div>
-
 <!-- Modal Open Captured Images-->
-<div class="modal fade" id="capturedImages" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="capturedImages" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
     <div class="modal-dialog  modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="capturedImagesTitle">Captured images</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" id="closeCapturedImagesModal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <button type="button" class="btn btn-outline-info" onclick="getNewImages()">Get it !</button>
                 <div id="cropper">
-                    <div class="btn-toolbar" id="toolbar" style="display: none" role="toolbar" aria-label="Toolbar with button groups">
+                    <div class="btn-toolbar" id="toolbar" style="display: none" role="toolbar"
+                        aria-label="Toolbar with button groups">
 
                         <div class="btn-group mr-2" role="group" aria-label="zoom">
                             <button type="button" class="btn btn-primary" onclick="cropper.zoom(-0.1)">
@@ -147,190 +164,209 @@
                 </div>
                 <div id="slide"></div>
                 <div id="cropped" class="list-group"></div>
-                <button type="button" class="btn btn-success float-right" style="margin-top:1vh">Save</button>
+                <button type="button" class="btn btn-success float-right" style="margin-top:1vh"
+                    onclick="treatCroppedCanvas()">Save</button>
             </div>
             <div class="modal-footer"></div>
         </div>
     </div>
-</div></body><style>
-#loading {
-    margin: auto;
-    width: 70vw;
-    height: 80vh;
-    background-color: white;
-    z-index: 2;
-    justify-content: center !important;
-}
-#fa-loader {
-    margin: auto;
-    text-align: center;
-    top: 200px;
-    position: relative;
+</div>
+</body>
+<style>
+    #loading {
+        margin: auto;
+        width: 70vw;
+        height: 80vh;
+        background-color: white;
+        z-index: 2;
+        justify-content: center !important;
+    }
 
-}
-#slide {
-    display: flex;
-    flex-wrap: wrap;
-}
-.btn-toolbar {
-    margin: 2vh;
-}
+    #fa-loader {
+        margin: auto;
+        text-align: center;
+        top: 200px;
+        position: relative;
 
-#picture {
-    font-size: 2.5em;
-    padding: 0 7px;
-    left: 4vw;
-}
-.top-bar {
-    margin-bottom: 1vh;
-}
-.list-group-item {
-    display: flex;
-    flex-direction: row;
-}
-.form-check {
-    margin: 1vh;
+    }
 
-}
-#speech.btn {
-    border: none;
-    padding: 0;
-    border-radius: 100%;
-    width: 40px;
-    height: 40px;
-    font-size: 1.5em;
-    color: #FFF;
-    margin: 0;
-    position: relative;
-    display: inline-block;
-    line-height: 50px;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    -ms-touch-action: manipulation;
-    touch-action: manipulation;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    background-image: none;
-    background-color: #FF3D7F;
-    top: 4px;
-}
-.card-title {
-    margin-top: 2vh;
-    margin-bottom: 1vh;
-}
+    #slide {
+        display: flex;
+        flex-wrap: wrap;
+    }
 
-.pulse-ring {
-    content: '';
-    width: 40px;
-    height: 40px;
-    border: 5px solid #FF3D7F;
-    border-radius: 50%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    animation: pulsate infinite 2s;
-    animation-play-state: paused;
-}
+    .btn-toolbar {
+        margin: 2vh;
+    }
 
-@-webkit-keyframes pulsate {
-    0% {
-        -webkit-transform: scale(1, 1);
+    #picture {
+        font-size: 2.5em;
+        padding: 0 7px;
+        left: 4vw;
+    }
+
+    .top-bar {
+        margin-bottom: 1vh;
+    }
+
+    .list-group-item {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .form-check {
+        margin: 1vh;
+
+    }
+
+    #speech.btn {
+        border: none;
+        padding: 0;
+        border-radius: 100%;
+        width: 40px;
+        height: 40px;
+        font-size: 1.5em;
+        color: #FFF;
+        margin: 0;
+        position: relative;
+        display: inline-block;
+        line-height: 50px;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        -ms-touch-action: manipulation;
+        touch-action: manipulation;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        background-image: none;
+        background-color: #FF3D7F;
+        top: 4px;
+    }
+
+    .card-title {
+        margin-top: 2vh;
+        margin-bottom: 1vh;
+    }
+
+    .pulse-ring {
+        content: '';
+        width: 40px;
+        height: 40px;
+        border: 5px solid #FF3D7F;
+        border-radius: 50%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        animation: pulsate infinite 2s;
+        animation-play-state: paused;
+    }
+
+    @-webkit-keyframes pulsate {
+        0% {
+            -webkit-transform: scale(1, 1);
+            opacity: 1;
+        }
+
+        100% {
+            -webkit-transform: scale(1.3, 1.3);
+            opacity: 0;
+        }
+    }
+
+    #top-bar.btn {
+        padding: 0.4rem;
+        height: 50px;
+        width: 70px;
+        font-size: 0.9em;
+    }
+
+    .btn-link.btn {
+        padding: 0;
+        font-size: 1.5em;
+    }
+
+    iframe {
+        border: 0;
+        background-color: white;
+    }
+
+    .breadcrumb {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        padding: 0.75rem 1rem;
+        margin-bottom: 0.2rem;
+        margin-top: 0.2rem;
+        list-style: none;
+        background-color: white;
+        border-radius: 0.25rem;
+        font-size: 1.2em;
+        font-weight: 500;
+    }
+
+    .form-control {
+        padding: 0;
+    }
+
+    .img-wrap {
+        display: inline-block;
+        font-size: 0;
+        height: 180px;
+        width: 200px;
+    }
+
+    .img-wrap .close {
+        top: 24px;
+        right: 6px;
+        z-index: 100;
+        background-color: #FFF;
+        padding: 5px 2px 2px;
+        color: #000;
+        font-weight: bold;
+        cursor: pointer;
+        opacity: .2;
+        text-align: center;
+        font-size: 22px;
+        line-height: 10px;
+        border-radius: 50%;
+        position: relative;
+    }
+
+    .img-wrap:hover .close {
         opacity: 1;
     }
-    100% {
-        -webkit-transform: scale(1.3, 1.3);
-        opacity: 0;
+</style>{% endblock %}{% block javascripts %}
+<!-- JAVASCRIPT-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.js"></script>
+<script src="{{ asset('/scripts/audio.js') }}"></script>
+<script src="{{ asset('/scripts/image.js') }}"></script>
+<script>
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        document.location.href = "/capture"
     }
-}
-#top-bar.btn {
-    padding: 0.4rem;
-    height: 50px;
-    width: 70px;
-    font-size: 0.9em;
-}
-.btn-link.btn {
-    padding: 0;
-    font-size: 1.5em;
-}
-iframe {
-    border: 0;
-    background-color: white;
-}
-.breadcrumb {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-    padding: 0.75rem 1rem;
-    margin-bottom: 0.2rem;
-    margin-top: 0.2rem;
-    list-style: none;
-    background-color: white;
-    border-radius: 0.25rem;
-    font-size: 1.2em;
-    font-weight: 500;
-}
-.form-control {
-    padding: 0;
-}
-.img-wrap {
-    display: inline-block;
-    font-size: 0;
-    height:180px;
-    width:200px;
-}
-.img-wrap .close {
-	top: 24px;
-	right: 6px;
-	z-index: 100;
-	background-color: #FFF;
-	padding: 5px 2px 2px;
-	color: #000;
-	font-weight: bold;
-	cursor: pointer;
-	opacity: .2;
-	text-align: center;
-	font-size: 22px;
-	line-height: 10px;
-	border-radius: 50%;
-	position: relative;
-}
-.img-wrap:hover .close {
-    opacity: 1;
-}
-</style>{% endblock %}{% block javascripts %}<!-- JAVASCRIPT--><script src="{{ asset('/scripts/audio.js') }}"></script><script src="{{ asset('/scripts/image.js') }}"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.js"></script><script>
-
-if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-    document.location.href = "/capture"
-}
-function changeState(obj) {
-    if (document.getElementById(obj).style.display == 'none') {
-        document.getElementById(obj).style.display = 'block'
-    } else {
-        document.getElementById(obj).style.display = 'none'
+    function changestate(obj) {
+        if (document.getElementById(obj).style.display == 'none') {
+            document.getelementbyid(obj).style.display = 'block'
+        } else {
+            document.getelementbyid(obj).style.display = 'none'
+        }
     }
-}
-
-function copy() { /* Get the text field */
-    var copyText = document.getElementById("transcriptAudio");
-
-    /* Select the text field */
-    copyText.select();
-    copyText.setSelectionRange(0, 99999);
-    /*For mobile devices*/
-
-    /* Copy the text inside the text field */
-    document.execCommand("copy");
-};
-
-window.onload = function () {
-    document.getElementById("loading").style.display = "none"
-    document.getElementById("main-content").style.display = ""
-    document.getElementById("top-bar").style.display = ""
-    document.getElementById('transcriptAudio').value = ""
-}</script>{% endblock %}
+    function copy() { /* get the text field */
+        var copytext = document.getElementById('transcriptAudio');
+        copytext.select();
+        copytext.setselectionrange(0, 99999);
+        /*For mobile devices*/
+        /* copy the text inside the text field */
+        document.execcommand("copy");
+    };
+    window.onload = function () {
+        document.getElementById("loading").style.display = "none";
+        document.getElementById("main-content").style.display = "";
+        document.getElementById("top-bar").style.display = "";
+        document.getElementById('transcriptAudio').value = "";
+    }</script>{% endblock %}

@@ -121,6 +121,9 @@
     "google/cloud-speech": {
         "version": "v0.27.0"
     },
+    "google/cloud-vision": {
+        "version": "v0.24.0"
+    },
     "google/common-protos": {
         "version": "1.1"
     },

@@ -46,9 +46,9 @@ class uploadimageController extends AbstractController{
         $files = $_FILES["images"];
         $n = count($files["name"]);
 
-        $uniqid = $this->userRepository->getOpenedEdit();
-        $doc = $this->documentRepository->findDocumentWithUniqId($uniqid);
-        $path = "/users/".$this->getUser()->getUsername()."/".$doc->getPath()."/image_in_progress/";
+        $uniqid = $this->getUser()->getOpenedEdit();
+        $doc = $this->documentRepository->findDocumentWithUniqId($uniqid)[0];
+        $path = "users/".$this->getUser()->getUsername()."/projects".$doc->getPath()."/image_in_progress/";
 
 
         for($i=0; $i < $n; $i++){
@@ -69,6 +69,19 @@ class uploadimageController extends AbstractController{
 
 
     }
+     /**
+     * @Route("/imageToText", name="imageToText")
+     */
+    public function imageToText(): Response
+    {
+        $files = $_POST["file"];
+        return $this->forward('App\Controller\GoogleRequestController::sendGoogleImageToTextRequest',[
+            "image" => $files
+        ]);
+
+    }
+
+    
 }
 
 

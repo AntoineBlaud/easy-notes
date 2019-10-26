@@ -68,24 +68,28 @@ class uploadaudioController extends AbstractController{
                 $infos.= "file ".$file.PHP_EOL;
         } 
 
-        // delete previous long audio
         $files = scandir($path."/audio_saved/");
         // delete previous big file if exist
         foreach($files as $file){
             // If the file is a flac
-            if(preg_match('/long.*/', $file))
+            if(preg_match('/long.*/', $file)){
                 //  Move file in order to be read by ffmpeg
+                $previous_file = $file;
                 rename($path."/audio_saved/".$file, $path."/audio_in_progress/".$file);
+            }
         } 
 
         // add  listed files to list.txt
-        file_put_contents($path."/audio_in_progress/"."list.txt",$infos);
+        file_put_contents($path."/audio_in_progress/"."list.txt",$infos, FILE_APPEND);
 
         // concat all flac file by orders
         sleep(1);
         $newFile = "long".rand(0,500).".flac";
         $filename = $path."/audio_saved/".$newFile;
-        exec("ffmpeg -f concat -i ".$path."/audio_in_progress/"."list.txt ".$filename);
+        if(strlen($infos) > 1)
+            exec("ffmpeg -f concat -i ".$path."/audio_in_progress/"."list.txt ".$filename);
+        else
+            rename($path."/audio_in_progress/".$previous_file, $path."/audio_saved/".$newFile);
         sleep(1);
 
         // delete concatened files
@@ -96,7 +100,7 @@ class uploadaudioController extends AbstractController{
         } 
 
         //update list.txt
-        file_put_contents($path."/audio_in_progress/"."list.txt",$filename);
+        file_put_contents($path."/audio_in_progress/"."list.txt","file ".$newFile.PHP_EOL);
         
 
         // This should return the file to the browser as response

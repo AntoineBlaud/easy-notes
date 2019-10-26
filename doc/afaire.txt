@@ -1,4 +1,25 @@
 
-Faire edit suite ouverture projet, chargement image audio et sauvegarde.
-Faire api google google doc 
+Finir action image:: modal edition texte et copier :: filtre
+Faire suppresion image
+faire repere audio
+------------------- 17h30
+Faire api google doc 
+------------------- 20h00
+/***
+Faire keyword searcher + recherche contenu similaire :: Ne pas faire pour l'instant
+*///
+Faire Télécharger sauvegarde document
+Faire page d'acceuil 
+Faire suppresion document
+Faire restauration
+Faire documentation
+Resoudre problème
+Améliorer code
+Faire gestion complete utilisateur, mail, inscription ou non.
+Gestion toute les erreurs
+
+Faire transfert vrai serveur SQL/ WEB/ Vrai compte google
+
+
+/** REsoudre problème google doc*/
 
